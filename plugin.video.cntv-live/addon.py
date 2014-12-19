@@ -16,7 +16,7 @@ data = resp.read().decode("utf-8")
 
 url = data[data.index('"hls3":"') + 8:]
 url = url[:url.index('"')]
-url = url.replace("100-300", "300-500")
+url = url.replace("master.m3u8?b=100-300&", "index_500_av-p.m3u8?")
 
 print(url)
 
