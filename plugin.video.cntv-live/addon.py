@@ -204,7 +204,7 @@ elif param.startswith("?category="):
 		addCity("xizang", "Tibet 西藏")
 		addCity("xinjiang", "Xinjiang 新疆")
 		addCity("yunnan", "Yunnan 云南")
-		addCity("zhejiang", "zhejiang 浙江")
+		addCity("zhejiang", "Zhejiang 浙江")
 	
 	xbmcplugin.endOfDirectory(addon_handle)
 	
