@@ -32,6 +32,8 @@ elif param.startswith("?city="):
 		li = xbmcgui.ListItem(channelName, iconImage=addon_path + "/resources/media/" + city + ".png")
 		xbmcplugin.addDirectoryItem(handle=addon_handle, url=sys.argv[0] + "?stream=" + channelID, listitem=li)
 	
+	if city == "anhui":
+		addStream("anqingxinwen", "安庆新闻综合")
 	if city == "beijing":
 		addStream("btv2", "BTV文艺")
 		addStream("btv3", "BTV科教")
@@ -41,7 +43,12 @@ elif param.startswith("?city="):
 		addStream("btv7", "BTV生活")
 		addStream("btv8", "BTV青少")
 		addStream("btv9", "BTV新闻")
+		addStream("btvchild", "BTV卡酷少儿")
+		addStream("btvjishi", "BTV纪实")
+		addStream("btvInternational", "BTV国际")
 	if city == "tianjin":
+		addStream("tianjin1", "天津1套")
+		addStream("tianjin2", "天津2套")
 		addStream("tianjinbh", "滨海新闻综合")
 		addStream("tianjinbh2", "滨海综艺频道")
 	if city == "guangxi":
@@ -50,23 +57,40 @@ elif param.startswith("?city="):
 		addStream("cztv1", "潮州综合")
 		addStream("cztv2", "潮州公共")
 		addStream("foshanxinwen", "佛山新闻综合")
+		addStream("guangzhouxinwen", "广州新闻")
+		addStream("guangzhoujingji", "广州经济")
+		addStream("guangzhoushaoer", "广州少儿")
+		addStream("guangzhouzonghe", "广州综合")
+		addStream("guangzhouyingyu", "广州英语")
 		addStream("shaoguanzonghe", "韶关综合")
+		addStream("shaoguangonggong", "韶关公共")
+		addStream("shenzhencjsh", "深圳财经")
 		addStream("zhuhaiyitao", "珠海一套")
 		addStream("zhuhaiertao", "珠海二套")
 	if city == "sichuan":
 		addStream("cdtv1", "成都新闻综合")
+		addStream("cdtv2new", "成都经济资讯服务")
 		addStream("cdtv5", "成都公共")
 	if city == "liaoning":
 		addStream("daliannews", "大连一套")
+		addStream("liaoningds", "辽宁都市")
+	if city == "jiangxi":
+		addStream("ganzhou", "赣州新闻综合")
+		addStream("nanchangnews", "南昌新闻")
 	if city == "hubei":
+		addStream("hubeidst", "湖北电视台综合频道")
 		addStream("hubeigonggong", "湖北公共")
 		addStream("hubeijiaoyu", "湖北教育")
+		addStream("hubeitiyu", "湖北体育")
 		addStream("hubeiyingshi", "湖北影视")
 		addStream("hubeijingshi", "湖北经视")
 		addStream("hubeigouwu", "湖北购物")
 		addStream("jznews", "荆州新闻频道")
+		addStream("wuhanetv", "武汉教育")
 		addStream("jzlongs", "湖北垄上频道")
 		addStream("xiangyangtai", "襄阳广播电视台")
+	if city == "heilongjiang":
+		addStream("haerbinnews", "哈尔滨新闻综合")
 	if city == "xinjiang":
 		addStream("xjtv2", "维语新闻综合")
 		addStream("xjtv3", "哈语新闻综合")
@@ -74,22 +98,41 @@ elif param.startswith("?city="):
 		addStream("xjtv8", "哈语综艺")
 		addStream("xjtv9", "维语经济生活")
 	if city == "hebei":
+		addStream("hebeinongmin", "河北农民频道")
+		addStream("hebeijingji", "河北经济")
+		addStream("shijiazhuangyitao", "石家庄一套")
+		addStream("shijiazhuangertao", "石家庄二套")
 		addStream("shijiazhuangsantao", "石家庄三套")
+		addStream("shijiazhuangsitao", "石家庄四套")
 		addStream("xingtaizonghe", "邢台综合")
 		addStream("xingtaishenghuo", "邢台生活")
 		addStream("xingtaigonggong", "邢台公共")
 		addStream("xingtaishahe", "邢台沙河")
 	if city == "shandong":
 		addStream("jinannews", "济南新闻")
+		addStream("qingdaonews", "青岛新闻综合")
+		addStream("yantaixinwenzonghe", "烟台新闻综合")
+		addStream("yantaixinjingjishenghuo", "烟台经济生活")
+		addStream("yantaigonggong", "烟台公共频道")
+	if city == "gansu":
+		addStream("jingcailanzhou", "睛彩兰州")
 	if city == "yunnan":
 		addStream("lijiangnews", "丽江新闻综合频道")
 		addStream("lijiangpublic", "丽江公共频道")
 	if city == "neimenggu":
 		addStream("neimenggu2", "蒙语频道")
+		addStream("neimengwh", "内蒙古文化频道")
 	if city == "jiangsu":
 		addStream("nanjingnews", "南京新闻")
 		addStream("nantongxinwen", "南通新闻频道")
 		addStream("nantongshejiao", "南通社教频道")
+		addStream("nantongshenghuo", "南通生活频道")
+		addStream("wuxixinwenzonghe", "无锡新闻综合")
+		addStream("wuxidoushizixun", "无锡都市资讯")
+		addStream("wuxiyuele", "无锡娱乐")
+		addStream("wuxijingji", "无锡经济")
+		addStream("wuxiyidong", "无锡移动")
+		addStream("wuxishenghuo", "无锡生活")
 	if city == "zhejiang":
 		addStream("nbtv1", "宁波一套")
 		addStream("nbtv2", "宁波二套")
@@ -103,10 +146,15 @@ elif param.startswith("?city="):
 		addStream("xiamen2", "厦门二套")
 		addStream("xiamen3", "厦门三套")
 		addStream("xiamen4", "厦门四套")
+		addStream("xiamenyidong", "厦门移动")
 	if city == "shaanxi":
 		addStream("xiannews", "西安新闻")
 	if city == "xizang":
 		addStream("xizang2", "藏语频道")
+	if city == "jilin":
+		addStream("yanbianguangbo", "延边卫视视频广播")
+		addStream("yanbianam", "延边卫视AM")
+		addStream("yanbianfm", "延边卫视FM")
 	
 	xbmcplugin.endOfDirectory(addon_handle)
 
@@ -187,13 +235,18 @@ elif param.startswith("?category="):
 			li = xbmcgui.ListItem(cityName)
 			xbmcplugin.addDirectoryItem(handle=addon_handle, url=sys.argv[0] + "?city=" + cityID, listitem=li, isFolder=True)
 		
+		addCity("anhui", "Anhui 安徽")
 		addCity("beijing", "Beijing 北京")
 		addCity("fujian", "Fujian 福建")
+		addCity("gansu", "Gansu 甘肃")
 		addCity("guangdong", "Guangdong 广东")
 		addCity("guangxi", "Guangxi 广西")
 		addCity("hebei", "Hebei 河北")
+		addCity("heilongjiang", "Heilongjiang 黑龙江")
 		addCity("hubei", "Hubei 湖北")
+		addCity("jilin", "Jilin 吉林")
 		addCity("jiangsu", "Jiangsu 江苏")
+		addCity("jiangxi", "Jiangxi 江西")
 		addCity("liaoning", "Liaoning 辽宁")
 		addCity("neimenggu", "Inner Mongolia 内蒙古")
 		addCity("shandong", "Shandong 山东")
