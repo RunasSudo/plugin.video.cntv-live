@@ -27,12 +27,13 @@ if param.startswith("?stream="):
 	#Apply nasty hacks
 	url = url.replace("tv.fw.live.cntv.cn", "tvhd.fw.live.cntv.cn") #Fix 403 Forbidden
 	
-	#Download and parse the M3U8 file
-	resp = urllib2.urlopen(url)
-	for line in resp:
-		if not line.startswith("#"):
-			url = line.rstrip()
-			break
+	if "ak.live.cntv.cn" in url:
+		#Download and parse the M3U8 file
+		resp = urllib2.urlopen(url)
+		for line in resp:
+			if not line.startswith("#"):
+				url = line.rstrip()
+				break
 	
 	xbmc.Player().play(url)
 
