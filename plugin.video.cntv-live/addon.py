@@ -126,7 +126,7 @@ elif param.startswith("?category="):
 		addStream("cctvamerica", "CCTV-4 (美洲)")
 		addStream("cctv5", "CCTV-5 体育")
 		addStream("cctv6", "CCTV-6 电影")
-		addStream("cctv7", "CCTV-7 军事农业")
+		addStream("cctv7", "CCTV-7 军事 农业")
 		addStream("cctv8", "CCTV-8 电视剧")
 		addStream("cctvjilu", "CCTV-9 纪录")
 		addStream("cctvdoc", "CCTV-9 纪录(英)")
