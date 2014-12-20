@@ -24,6 +24,9 @@ if param.startswith("?stream="):
 	url = url[:url.index('"')]
 	url = url.replace("b=100-300", "b=500-2000") #Set the desired minimum bandwidth
 	
+	#Apply nasty hacks
+	url = url.replace("tv.fw.live.cntv.cn", "tvhd.fw.live.cntv.cn") #Fix 403 Forbidden
+	
 	#Download and parse the M3U8 file
 	resp = urllib2.urlopen(url)
 	for line in resp:
