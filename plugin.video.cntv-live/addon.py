@@ -16,12 +16,20 @@ xbmcplugin.setContent(addon_handle, "movies")
 param = sys.argv[2]
 
 if param.startswith("?stream="):
+	#Locate the M3U8 file
 	resp = urllib2.urlopen("http://vdn.live.cntv.cn/api2/liveHtml5.do?channel=pa://cctv_p2p_hd" + param[8:] + "&client=html5")
 	data = resp.read().decode("utf-8")
 
 	url = data[data.index('"hls3":"') + 8:]
 	url = url[:url.index('"')]
-	url = url.replace("master.m3u8", "index_500_av-p.m3u8")
+	url = url.replace("b=100-300", "b=500-2000") #Set the desired minimum bandwidth
+	
+	#Download and parse the M3U8 file
+	resp = urllib2.urlopen(url)
+	for line in resp:
+		if not line.startswith("#"):
+			url = line.rstrip()
+			break
 	
 	xbmc.Player().play(url)
 
