@@ -232,7 +232,7 @@ elif param.startswith("?category="):
 	
 	if category == "chengshi":
 		def addCity(cityID, cityName):
-			li = xbmcgui.ListItem(cityName)
+			li = xbmcgui.ListItem(cityName, iconImage=addon_path + "/resources/media/" + cityID + ".png")
 			xbmcplugin.addDirectoryItem(handle=addon_handle, url=sys.argv[0] + "?city=" + cityID, listitem=li, isFolder=True)
 		
 		addCity("anhui", "Anhui 安徽")
