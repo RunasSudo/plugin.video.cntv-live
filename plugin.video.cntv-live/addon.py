@@ -7,6 +7,7 @@ import xbmcgui
 import xbmcplugin
 
 import urllib2
+import json #Python 2.6+ is guaranteed by XBMC
 
 addon = xbmcaddon.Addon(id="plugin.video.cntv-live")
 addon_path = xbmc.translatePath(addon.getAddonInfo("path"))

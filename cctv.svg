@@ -15,7 +15,7 @@
    version="1.1"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="cctv.svg"
-   inkscape:export-filename="./plugin.video.cntv-live/resources/media/cctv5plus.png"
+   inkscape:export-filename="./plugin.video.cntv-live/resources/media/cctvamerica.png"
    inkscape:export-xdpi="600"
    inkscape:export-ydpi="600">
   <defs
@@ -28,7 +28,7 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="6.3353201"
-     inkscape:cx="14.435912"
+     inkscape:cx="-7.3467285"
      inkscape:cy="16.46865"
      inkscape:document-units="px"
      inkscape:current-layer="g4067"
@@ -263,7 +263,7 @@
          y="537.18359">欧　洲</tspan></text>
   </g>
   <g
-     style="display:none"
+     style="display:inline"
      inkscape:label="cctvamerica"
      id="g3927"
      inkscape:groupmode="layer">
@@ -673,7 +673,7 @@
      inkscape:groupmode="layer"
      id="g4067"
      inkscape:label="cctv5plus"
-     style="display:inline">
+     style="display:none">
     <text
        transform="translate(-411.14285,-498.43362)"
        xml:space="preserve"
