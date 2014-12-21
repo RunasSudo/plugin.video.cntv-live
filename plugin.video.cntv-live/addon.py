@@ -6,6 +6,8 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
+import traceback
+import re
 import urllib2
 try:
 	import simplejson as jsonimpl
@@ -30,9 +32,12 @@ def main():
 				url = jsondata["hls_url"][streamName]
 				
 				#Apply nasty hacks
-				url = url.repalce("tv.fw.live.cntv.cn", "tvhd.fw.live.cntv.cn") #Fix 403 Forbidden
+				url = url.replace("tv.fw.live.cntv.cn", "tvhd.fw.live.cntv.cn") #Fix 403 Forbidden
 				
-				return url
+				if "dianpian.mp4" in url:
+					return None
+				else:
+					return url
 			else:
 				return None
 		
@@ -44,7 +49,7 @@ def main():
 			url = None
 			match = re.compile("'({.+?})';", re.DOTALL).search(data)
 			if match:
-				jsondata = jsonimpl.loads(data)
+				jsondata = jsonimpl.loads(match.group(1))
 				if jsondata.has_key("hls_url"):
 					#Try a bunch of URLs
 					url = url or tryStream(jsondata, "hls3") #Preferred
@@ -56,29 +61,38 @@ def main():
 					showNotification(30001)
 					return
 			
-			url = url.replace("b=100-300", "b=500-2000") #Set the desired minimum bandwidth
+			if url is None:
+				showNotification(30002)
+				return
+			
+			url = url.replace("b=100-300", "b=300-500") #Set the desired bandwidth
+			
+			print("Got URL {0}".format(url))
 			
 			#Download and check if it's the actual HLS stream or a link to the actual stream
 			resp = urllib2.urlopen(url)
+			lines = resp.read().decode("utf-8").split("\n")
 			isStreamLink = False
-			for line in resp:
+			for line in lines:
 				if line.startswith("#EXT-X-STREAM-INF"):
 					isStreamLink = True
 					break
 			
 			if isStreamLink:
+				print("Stream link detected.")
 				#Download and parse the M3U8 file
-				for line in resp:
+				for line in lines:
 					if not line.startswith("#"):
-						url = line.rstrip() #Use the first stream listed
+						url = line #Use the first stream listed
 						break
+			
+			print("Loading URL {0}".format(url))
 			
 			xbmc.Player().play(url)
 			
 		except Exception as e:
 			showNotification(30000)
-			print(e.__doc__)
-			print(e.message)
+			print(traceback.format_exc())
 			return
 
 	elif param.startswith("?city="):
