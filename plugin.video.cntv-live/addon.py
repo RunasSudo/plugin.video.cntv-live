@@ -27,19 +27,45 @@ def showNotification(stringID):
 
 def main():
 	if param.startswith("?stream="):
-		def tryStream(jsondata, streamName):
+		def tryHLSStream(jsondata, streamName):
 			if jsondata["hls_url"].has_key(streamName):
 				url = jsondata["hls_url"][streamName]
+				url = url.replace("b=100-300", "b=300-500") #Set the desired bandwidth
 				
 				#Apply nasty hacks
 				url = url.replace("tv.fw.live.cntv.cn", "tvhd.fw.live.cntv.cn") #Fix 403 Forbidden
 				
 				if "dianpian.mp4" in url:
 					return None
+					
 				else:
+					#Download and check if it's the actual HLS stream or a link to the actual stream
+					resp = urllib2.urlopen(url)
+					lines = resp.read().decode("utf-8").split("\n")
+					isStreamLink = False
+					for line in lines:
+						if line.startswith("#EXT-X-STREAM-INF"):
+							isStreamLink = True
+							break
+					
+					if isStreamLink:
+						print("Stream link detected.")
+						#Download and parse the M3U8 file
+						for line in lines:
+							if not line.startswith("#"):
+								url = line #Use the first stream listed
+								break
+					
 					return url
 			else:
 				return None
+		
+		def tryHDSStream(jsondata, streamName):
+			if jsondata["hds_url"].has_key(streamName):
+				url = jsondata["hds_url"][streamName]
+				url = url + "&hdcore=2.11.3"
+				
+				return url
 		
 		try:
 			#Locate the M3U8 file
@@ -52,11 +78,11 @@ def main():
 				jsondata = jsonimpl.loads(match.group(1))
 				if jsondata.has_key("hls_url"):
 					#Try a bunch of URLs
-					url = url or tryStream(jsondata, "hls3") #Preferred
-					url = url or tryStream(jsondata, "hls4")
-					url = url or tryStream(jsondata, "hls1")
-					url = url or tryStream(jsondata, "hls2")
-					url = url or tryStream(jsondata, "hls5")
+					url = url or tryHLSStream(jsondata, "hls3") #Preferred
+					url = url or tryHLSStream(jsondata, "hls4")
+					url = url or tryHLSStream(jsondata, "hls1")
+					url = url or tryHLSStream(jsondata, "hls2")
+					url = url or tryHLSStream(jsondata, "hls5")
 				else:
 					showNotification(30001)
 					return
@@ -64,27 +90,6 @@ def main():
 			if url is None:
 				showNotification(30002)
 				return
-			
-			url = url.replace("b=100-300", "b=300-500") #Set the desired bandwidth
-			
-			print("Got URL {0}".format(url))
-			
-			#Download and check if it's the actual HLS stream or a link to the actual stream
-			resp = urllib2.urlopen(url)
-			lines = resp.read().decode("utf-8").split("\n")
-			isStreamLink = False
-			for line in lines:
-				if line.startswith("#EXT-X-STREAM-INF"):
-					isStreamLink = True
-					break
-			
-			if isStreamLink:
-				print("Stream link detected.")
-				#Download and parse the M3U8 file
-				for line in lines:
-					if not line.startswith("#"):
-						url = line #Use the first stream listed
-						break
 			
 			print("Loading URL {0}".format(url))
 			
