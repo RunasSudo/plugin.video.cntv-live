@@ -8,7 +8,9 @@ import xbmcplugin
 
 import traceback
 import re
+import urllib
 import urllib2
+import urlparse
 try:
 	import simplejson as jsonimpl
 except ImportError:
@@ -25,12 +27,19 @@ param = sys.argv[2]
 def showNotification(stringID):
 	xbmc.executebuiltin("Notification({0},{1})".format(addon_name, addon.getLocalizedString(stringID)))
 
+def getQualityRange(quality):
+	if quality == "100-300": #Hooray for efficiency!
+		return "100-300"
+	if quality == "300-500":
+		return "300-500"
+	return "300-500"
+
 def main():
 	if param.startswith("?stream="):
 		def tryHLSStream(jsondata, streamName):
 			if jsondata["hls_url"].has_key(streamName):
 				url = jsondata["hls_url"][streamName]
-				url = url.replace("b=100-300", "b=" + addon.getSetting("quality")) #Set the desired bandwidth
+				url = url.replace("b=100-300", "b=" + getQualityRange(addon.getSetting("quality"))) #Set the desired bandwidth
 				
 				#Apply nasty hacks
 				url = url.replace("tv.fw.live.cntv.cn", "tvhd.fw.live.cntv.cn") #China - 403 Forbidden
@@ -92,6 +101,12 @@ def main():
 				return
 			
 			print("Loading URL {0}".format(url))
+			
+			auth = urlparse.parse_qs(urlparse.urlparse(url)[4])["AUTH"][0]
+			
+			url = url + "|" + urllib.urlencode( { "Cookie" : auth } )
+			
+			print("Built URL {0}".format(url))
 			
 			xbmc.Player().play(url)
 			
