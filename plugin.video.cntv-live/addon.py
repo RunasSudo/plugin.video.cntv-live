@@ -30,10 +30,10 @@ def main():
 		def tryHLSStream(jsondata, streamName):
 			if jsondata["hls_url"].has_key(streamName):
 				url = jsondata["hls_url"][streamName]
-				url = url.replace("b=100-300", "b=300-500") #Set the desired bandwidth
+				url = url.replace("b=100-300", "b=" + addon.getSetting("quality")) #Set the desired bandwidth
 				
 				#Apply nasty hacks
-				url = url.replace("tv.fw.live.cntv.cn", "tvhd.fw.live.cntv.cn") #Fix 403 Forbidden
+				url = url.replace("tv.fw.live.cntv.cn", "tvhd.fw.live.cntv.cn") #China - 403 Forbidden
 				
 				if "dianpian.mp4" in url:
 					return None
