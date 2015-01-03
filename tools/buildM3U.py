@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-fHandle = open("plugin.video.cntv-live/resources/epg.m3u", "w")
+fHandle = open("../plugin.video.cntv-live/resources/epg.m3u", "w")
 fHandle.write("#EXTM3U\n")
 
 def addStream(channelID, channelName):
