@@ -1,3 +1,6 @@
+2.0.6 (RunasSudo)
+- Actually fix addon to work with CNTV browser-extension changes.
+
 2.0.5 (RunasSudo)
 - Fix addon to work with CNTV browser-extension changes.
 
