@@ -37,6 +37,7 @@ def getQualityRange(quality):
 def main():
 	if param.startswith("?stream="):
 		def tryHLSStream(jsondata, streamName):
+			print("Trying stream {0}".format(streamName))
 			if jsondata["hls_url"].has_key(streamName):
 				url = jsondata["hls_url"][streamName]
 				url = url.replace("b=100-300", "b=" + getQualityRange(addon.getSetting("quality"))) #Set the desired bandwidth
@@ -72,6 +73,7 @@ def main():
 						return url
 					except Exception:
 						print(traceback.format_exc())
+						return None
 			else:
 				return None
 		
@@ -88,19 +90,17 @@ def main():
 			data = resp.read().decode("utf-8")
 			
 			url = None
-			match = re.compile("'({.+?})';", re.DOTALL).search(data)
-			if match:
-				jsondata = jsonimpl.loads(match.group(1))
-				if jsondata.has_key("hls_url"):
-					#Try a bunch of URLs
-					url = url or tryHLSStream(jsondata, "hls3") #Preferred
-					url = url or tryHLSStream(jsondata, "hls4")
-					url = url or tryHLSStream(jsondata, "hls1")
-					url = url or tryHLSStream(jsondata, "hls2")
-					url = url or tryHLSStream(jsondata, "hls5")
-				else:
-					showNotification(30001)
-					return
+			jsondata = jsonimpl.loads(data)
+			if jsondata.has_key("hls_url"):
+				#Try a bunch of URLs
+				url = url or tryHLSStream(jsondata, "hls3") #Preferred
+				url = url or tryHLSStream(jsondata, "hls4")
+				url = url or tryHLSStream(jsondata, "hls1")
+				url = url or tryHLSStream(jsondata, "hls2")
+				url = url or tryHLSStream(jsondata, "hls5")
+			else:
+				showNotification(30001)
+				return
 			
 			if url is None:
 				showNotification(30002)
