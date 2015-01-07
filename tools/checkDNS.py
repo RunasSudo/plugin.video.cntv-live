@@ -1,33 +1,55 @@
-#!/usr/bin/python2 -u
+#!/usr/bin/python3 -u
 # -*- coding: utf-8 -*-
 
 import socket
+import sys
+import traceback
+import urllib.parse
+import urllib.request
+try:
+	import simplejson as jsonimpl
+except ImportError:
+	import json as jsonimpl
 
-timeout_s = 1.0
+timeout_s = 2.0
 retry = 2
 
-def checkURL(hostname, address):
-	conn = socket.create_connection(address, timeout_s)
-	conn.close()
-	print("{0} -> {1} (SUCC)".format(hostname, address[0]))
+def checkURL(url, hostname, address):
+	req = urllib.request.Request(url)
+	req.add_header("Host", hostname)
+	
+	conn = urllib.request.urlopen(req, timeout=timeout_s)
+	conn.read()
+	
+	print("{0} -> {1} (SUCC)".format(hostname, address))
 
-def checkAllURLs(hostname):
+def checkAllURLs(url):
+	hostname = urllib.parse.urlparse(url).netloc
+	
 	addrinfos = socket.getaddrinfo(hostname, 80)
 	for addrinfo in addrinfos:
 		if addrinfo[1] == socket.SOCK_STREAM:
 			
-			address = addrinfo[4]
+			address = addrinfo[4][0]
 			
 			for i in range(0, retry):
 				try:
-					checkURL(hostname, address)
+					checkURL(url.replace(hostname, address), hostname, address)
 					break
-				except socket.timeout:
+				except Exception:
 					if i >= retry - 1:
-						print("{0} -> {1} (FAIL)".format(hostname, address[0]))
+						print("{0} -> {1} (FAIL)".format(hostname, address))
 
 def addStream(channelID, channelName):
-	checkAllURLs(channelID + ".vtime.cntv.cloudcdn.net")
+	resp = urllib.request.urlopen("http://vdn.live.cntv.cn/api2/live.do?channel=pa://cctv_p2p_hd" + channelID)
+	data = resp.read().decode("utf-8")
+	jsondata = jsonimpl.loads(data)
+	url = jsondata["hls_url"]["hls4"]
+	url = url.replace("vtime.cntv.cloudcdn.net:8000", "vtime.cntv.cloudcdn.net")
+	
+	checkAllURLs(url)
+
+#checkURL("localhost", "127.0.0.1:8000")
 
 addStream("cctv1", "CCTV-1 综合")
 addStream("cctv2", "CCTV-2 财经")
