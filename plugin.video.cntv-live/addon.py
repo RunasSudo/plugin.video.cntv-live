@@ -135,6 +135,7 @@ def main():
 			
 			print("Built URL {0}".format(url))
 			
+			pDialog.close()
 			xbmc.Player().play(url)
 			
 		except Exception:
