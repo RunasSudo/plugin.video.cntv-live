@@ -77,12 +77,16 @@ def main():
 			hostname = None
 			jsondata = jsonimpl.loads(data)
 			
-			if jsondata.has_key("hds_url"):
-				if jsondata["hds_url"].has_key("hds2"):
+			if jsondata.has_key("hls_url"):
+				if jsondata["hls_url"].has_key("hls3"):
 					try:
-						tmpurl = jsondata["hds_url"]["hds2"]
+						tmpurl = jsondata["hls_url"]["hls3"]
 						#Apply nasty hacks.
-						tmpurl = tmpurl.replace("vtime.cntv.cloudcdn.net:8000", "vtime.cntv.cloudcdn.net")
+						tmpurl = tmpurl.replace("vtime.cntv.cloudcdn.net:8000", "vtime.cntv.cloudcdn.net") #Global (HDS/FLV) - wrong port
+						tmpurl = tmpurl.replace("tv.fw.live.cntv.cn", "tvhd.fw.live.cntv.cn") #China - 403 Forbidden
+						
+						#Change quality.
+						tmpurl = tmpurl.replace("b=100-300", "b={0}".format(getQualityRange(addon.getSetting("quality"))))
 						
 						tmphostname = urlparse.urlparse(tmpurl).netloc
 						addrinfos = socket.getaddrinfo(tmphostname, 80)
@@ -95,7 +99,7 @@ def main():
 								tries = tries + 1
 								
 								address = addrinfo[4][0]
-								pDialog.update(33 + tries * 11, "{0} {1} (FLV)".format(addon.getLocalizedString(30011), address))
+								pDialog.update(33 + tries * 11, "{0} {1} (HLS)".format(addon.getLocalizedString(30011), address))
 								
 								try:
 									tmpurl = tmpurl.replace(tmphostname, address)
@@ -113,7 +117,7 @@ def main():
 									print("{0} failed.".format(address))
 									print(traceback.format_exc())
 					except Exception:
-						print("hds2 failed.")
+						print("hls3 failed.")
 						print(traceback.format_exc())
 			
 			if pDialog.iscanceled(): return

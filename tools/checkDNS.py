@@ -44,7 +44,7 @@ def addStream(channelID, channelName):
 	resp = urllib.request.urlopen("http://vdn.live.cntv.cn/api2/live.do?channel=pa://cctv_p2p_hd" + channelID)
 	data = resp.read().decode("utf-8")
 	jsondata = jsonimpl.loads(data)
-	url = jsondata["hls_url"]["hls4"]
+	url = jsondata["hds_url"]["hds2"]
 	url = url.replace("vtime.cntv.cloudcdn.net:8000", "vtime.cntv.cloudcdn.net")
 	
 	checkAllURLs(url)
@@ -71,3 +71,5 @@ def addStream(channelID, channelName):
 ##addStream("cctv15", "CCTV-15 音乐")
 ##addStream("cctv9", "CCTV-NEWS")
 ##addStream("cctv5plus", "CCTV体育赛事")
+
+addStream("anhui", None)
