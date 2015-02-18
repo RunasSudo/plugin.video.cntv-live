@@ -1,4 +1,7 @@
-2.0.7 (RunasSudo, 2014-01-14)
+2.0.8 (RunasSudo, 2015-02-18)
+- Hotfix to address latest CNTV update.
+
+2.0.7 (RunasSudo, 2015-01-14)
 - Add a progress bar and mostly address #17.
 
 2.0.6 (RunasSudo)
